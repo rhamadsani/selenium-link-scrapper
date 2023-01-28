@@ -1,0 +1,7 @@
+/*.log
+/venv
+/*.xlsx
+/*.xlx
+/\ *.xlsx
+/\ *.xlx
+/*.txt
