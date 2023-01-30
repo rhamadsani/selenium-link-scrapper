@@ -1,7 +1,7 @@
 Simple Scrap All Link in A Website
 
-# Install Python firs
+# Install Python first
 
 `
-python scrp.py
+python scrap.py
 `

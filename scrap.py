@@ -17,7 +17,6 @@ generateReport('Total Tag -> ' + str(len(aHref)))
 totalTagWithLink = 0
 totalTagWitouthLink = 0
 
-
 def unique(list1):
     unique_list = []
 
@@ -31,7 +30,6 @@ def cleanList(list2):
     data_list = []
     for x in list2:
         data_list.append(x.get_attribute("href"))
-
     return data_list
 
 cleanData = cleanList(aHref)
@@ -39,15 +37,16 @@ cleanData = unique(cleanData)
 
 for i in cleanData:
     # script = driver.execute_script("window.open('"+link+"','_blank');")
-    script = driver.execute_script("window.location.href='"+i+"'")
-    time.sleep(4)
+    driver.execute_script("window.location.href='"+i+"'")
+    time.sleep(5)
     current_link = driver.current_url
     report_generate = ""
+    print("Current Link " + i)
     if current_link == i: 
         report_generate = i + " -> Success"
     else : 
         report_generate = i + " -> Error"
-        print(current_link, i)
+        print("Current Link " + i + ", Redirect Link " + current_link)
     
     generateReport(report_generate)
     if i == "" :
