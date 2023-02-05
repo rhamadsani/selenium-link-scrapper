@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
-
+import requests
 def generateReport(message):
     with open("test-report.txt", "a") as f:
         f.write(message)
@@ -35,23 +35,29 @@ def cleanList(list2):
 cleanData = cleanList(aHref)
 cleanData = unique(cleanData)
 
+generateReport('Total Tag Unique -> ' + str(len(cleanData)))
+
 for i in cleanData:
-    # script = driver.execute_script("window.open('"+link+"','_blank');")
-    driver.execute_script("window.location.href='"+i+"'")
-    time.sleep(5)
-    current_link = driver.current_url
-    report_generate = ""
-    print("Current Link " + i)
-    if current_link == i: 
-        report_generate = i + " -> Success"
-    else : 
-        report_generate = i + " -> Error"
-        print("Current Link " + i + ", Redirect Link " + current_link)
-    
-    generateReport(report_generate)
+
     if i == "" :
         totalTagWitouthLink+=1
     else :
+        # script = driver.execute_script("window.open('"+link+"','_blank');")
+        st = time.time()
+        response = requests.get(i)
+        et = time.time() - st
+        # get the status code from the response object
+        status_code = str(response.status_code)
+
+        report_generate = ""
+        print("Current Link " + i)
+        if status_code == "200":
+            report_generate = i + " Status Code : " + status_code + " -> Success " + str(et) + "/s"
+        else:
+            report_generate = i + " Status Code : " + status_code + " -> Error " + str(et) + "/s"
+            print("Current Link " + i + ", Status Code " + status_code)
+
+        generateReport(report_generate)
         totalTagWithLink+=1
 
 generateReport('Total WithLink(uniq) -> ' + str(totalTagWithLink))
